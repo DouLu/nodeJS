@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div class="box">
+    <input type="text" id="user_name" placeholder="用户名">
+    <input type="password" id="user_pwd" placeholder="密码">
+    <button id="reg_btn">注册</button>
+</div>
+<script src="../node_modules/jquery/dist/jquery.min.js"></script>
+<script>
+    $(function(){
+        $('#reg_btn').click(function () {
+            var name = $('#user_name').val(),pwd = $('#user_pwd').val();
+            console.log(name,pwd);
+            $.ajax({
+                async:false,//关闭异步请求
+                contentType:'script',//传送的数据类型
+                url:'client.js',
+                type:'POST',
+                data:{name:name,pwd:pwd},
+                dataType:'',//服务器响应的数据类型
+                beforeSend:function () {
+                    console.log("发送ajax请求之前调用")
+                },
+                success:function (data) {
+                    console.log("请求成功后，服务器返回的数据",data);
+                    sCallback(data);
+                },
+                erro:function (data) {
+                    console.log("请求失败后，服务器返回的数据",data);
+                    eCallback(data);
+                }
+                /*success:function (xhr,status,error) {
+                    console.log("发送ajax请求之前调用")
+                },
+                erro:function (xhr,status,error) {
+                    console.log("发送ajax请求之前调用")
+                }*/
+            });
+        });
+        //成功后的回掉函数
+        function sCallback(data){
+            console.log("请求成功后，调用回掉函数",data);
+        }
+        //失败后的回掉函数
+        function eCallback(data){
+            console.log("请求失败后，调用回掉函数",data);
+        }
+    })
+</script>
+</body>
+</html>
